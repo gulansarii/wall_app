@@ -26,6 +26,7 @@ class _SplashState extends State<Splash> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
                   alignment: Alignment.bottomLeft,
@@ -41,7 +42,7 @@ class _SplashState extends State<Splash> {
                 ),
                 InkWell(
                   onTap: () {
-                    // isDark = !isDark;
+                    isDark = !isDark;
                     // if (isDark == true) {
                     //   isDark = false;
                     // } else {
