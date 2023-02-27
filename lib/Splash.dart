@@ -4,6 +4,8 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_0/Home.dart';
 import 'package:flutter_application_0/Login.dart';
 import 'package:flutter_application_0/constants.dart';
+import 'package:flutter_application_0/controllers/splashController.dart';
+import 'package:get/get.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -13,13 +15,14 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-  bool isDark = false;
+  final controller = Get.put(SplashController());
   // var youName = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          isDark == true ? Colors.black : Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: controller.isDark == true
+          ? Colors.black
+          : Color.fromARGB(255, 255, 255, 255),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -42,7 +45,7 @@ class _SplashState extends State<Splash> {
                 ),
                 InkWell(
                   onTap: () {
-                    isDark = !isDark;
+                    controller.isDark = !controller.isDark;
                     // if (isDark == true) {
                     //   isDark = false;
                     // } else {
@@ -55,7 +58,7 @@ class _SplashState extends State<Splash> {
                     alignment: Alignment.bottomLeft,
                     height: 80,
                     child: Icon(
-                      isDark ? Icons.light_mode : Icons.dark_mode,
+                      controller.isDark ? Icons.light_mode : Icons.dark_mode,
                       color: AppColors().appthemeColorDark,
                     ),
                   ),
@@ -81,7 +84,7 @@ class _SplashState extends State<Splash> {
                 style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
-                    color: isDark
+                    color: controller.isDark
                         ? Colors.white
                         : Color.fromARGB(240, 120, 124, 134)),
               ),
@@ -105,22 +108,24 @@ class _SplashState extends State<Splash> {
             ),
             InkWell(
               onTap: () {
-                setState(() {});
+                controller.name.value = 'Something';
               },
-              child: Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 156, 14, 14),
-                    borderRadius: BorderRadius.circular(30)),
-                // color: Colors.amber,
-                height: 50,
+              child: Obx(
+                () => Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 156, 14, 14),
+                      borderRadius: BorderRadius.circular(30)),
+                  // color: Colors.amber,
+                  height: 50,
 
-                child: Text(
-                  'Continue with Email',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400),
+                  child: Text(
+                    controller.name.value,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400),
+                  ),
                 ),
               ),
             ),
@@ -158,7 +163,7 @@ class _SplashState extends State<Splash> {
               child: Text(
                 'By logging in, you agree to our Terms & Privacy policy',
                 style: TextStyle(
-                    color: isDark
+                    color: controller.isDark
                         ? Colors.white
                         : Color.fromARGB(255, 10, 10, 10)),
               ),

@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_0/Home.dart';
+import 'package:flutter_application_0/controllers/loginController.dart';
+import 'package:get/get.dart';
 
 class LoginOtp extends StatefulWidget {
-  const LoginOtp({super.key});
+  LoginOtp({
+    super.key,
+  });
 
   @override
   State<LoginOtp> createState() => _LoginOtpState();
 }
 
 class _LoginOtpState extends State<LoginOtp> {
+  final loginController = Get.find<LoginController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +65,7 @@ class _LoginOtpState extends State<LoginOtp> {
               height: 30,
               width: MediaQuery.of(context).size.width,
               child: Text(
-                '9898787678',
+                loginController.numberText.text,
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
               ),
             ),

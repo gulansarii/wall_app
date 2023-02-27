@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_0/LoginOtp.dart';
+import 'package:flutter_application_0/controllers/loginController.dart';
+import 'package:get/get.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
@@ -12,6 +15,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final logincontroller = Get.put(LoginController());
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -89,6 +94,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               TextFormField(
+                keyboardType: TextInputType.number,
+                controller: logincontroller.numberText,
+                maxLength: 10,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "* Required";
@@ -100,6 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                     return null;
                 },
                 decoration: InputDecoration(
+                    counterText: '',
                     hintText: 'Enter Your Email ID / Mobile Number',
                     labelText: 'Email ID / Mobile Number',
                     filled: true,
@@ -113,10 +122,9 @@ class _LoginPageState extends State<LoginPage> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginOtp()));
+                  logincontroller.numberText.text.isEmpty
+                      ? Fluttertoast.showToast(msg: 'Please enter your number')
+                      : Get.toNamed('/loginOtp');
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -127,7 +135,8 @@ class _LoginPageState extends State<LoginPage> {
                   height: 50,
                   width: MediaQuery.of(context).size.width,
                   child: Text(
-                    'Login',
+                    logincontroller.number.value,
+                    // 'Login',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
