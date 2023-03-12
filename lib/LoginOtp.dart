@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_0/Home.dart';
 import 'package:flutter_application_0/controllers/loginController.dart';
+import 'package:flutter_application_0/controllers/otpController.dart';
 import 'package:get/get.dart';
 
 class LoginOtp extends StatefulWidget {
@@ -16,6 +17,7 @@ class LoginOtp extends StatefulWidget {
 
 class _LoginOtpState extends State<LoginOtp> {
   final loginController = Get.find<LoginController>();
+  final otpController = Get.put(OtpController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,8 +72,10 @@ class _LoginOtpState extends State<LoginOtp> {
               ),
             ),
             Container(
-                child: TextFormField(),
-                color: Colors.blueGrey,
+                child: TextFormField(
+                  controller: otpController.otpText,
+                ),
+                color: Colors.white,
                 height: 100,
                 width: MediaQuery.of(context).size.width),
             Container(
@@ -90,8 +94,7 @@ class _LoginOtpState extends State<LoginOtp> {
             ),
             InkWell(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
+                otpController.verifyOtp();
               },
               child: Container(
                 alignment: Alignment.center,

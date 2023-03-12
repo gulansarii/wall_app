@@ -108,7 +108,8 @@ class _SplashState extends State<Splash> {
             ),
             InkWell(
               onTap: () {
-                controller.name.value = 'Something';
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
               },
               child: Obx(
                 () => Container(
@@ -120,7 +121,7 @@ class _SplashState extends State<Splash> {
                   height: 50,
 
                   child: Text(
-                    controller.name.value,
+                    'Continue with Email',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,

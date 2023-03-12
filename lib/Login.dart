@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter_application_0/Home.dart';
 import 'package:flutter_application_0/LoginOtp.dart';
 import 'package:flutter_application_0/controllers/loginController.dart';
 import 'package:get/get.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -16,18 +20,19 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final logincontroller = Get.put(LoginController());
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Color.fromARGB(255, 253, 236, 236),
+          backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Color.fromARGB(255, 0, 0, 0)),
         ),
-        backgroundColor: Color.fromARGB(255, 253, 236, 236),
         body: Padding(
           padding: const EdgeInsets.fromLTRB(12, 16, 12, 16),
           child: Column(
@@ -64,12 +69,15 @@ class _LoginPageState extends State<LoginPage> {
                       fontFamily: 'Poppins'),
                 ),
               ),
+              SizedBox(
+                height: 10,
+              ),
               Container(
                 alignment: Alignment.topLeft,
                 height: 40,
                 width: 400,
                 child: Text(
-                  'Matrimony!',
+                  'PEXELS !',
                   style: TextStyle(
                       color: Color.fromARGB(255, 36, 44, 51),
                       fontSize: 27,
@@ -93,10 +101,10 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
+              SingleChildScrollView(),
               TextFormField(
-                keyboardType: TextInputType.number,
+                // keyboardType: TextInputType.emailAddress,
                 controller: logincontroller.numberText,
-                maxLength: 10,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "* Required";
@@ -124,18 +132,18 @@ class _LoginPageState extends State<LoginPage> {
                 onTap: () {
                   logincontroller.numberText.text.isEmpty
                       ? Fluttertoast.showToast(msg: 'Please enter your number')
-                      : Get.toNamed('/loginOtp');
+                      : logincontroller.sendOtp();
                 },
                 child: Container(
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 156, 14, 14),
+                      color: Color.fromARGB(255, 165, 49, 49),
                       borderRadius: BorderRadius.circular(30)),
                   // color: Colors.amber,
                   height: 50,
                   width: MediaQuery.of(context).size.width,
                   child: Text(
-                    logincontroller.number.value,
+                    'Send OTP',
                     // 'Login',
                     style: TextStyle(
                         color: Colors.white,
@@ -145,15 +153,63 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(
-                height: 16,
+                height: 19,
               ),
-              Container(
-                height: 16,
-                child: Text(
-                  'Not a member ? Sign up',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                ),
-              )
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blueAccent),
+                        // color: Color.fromARGB(255, 122, 122, 122),
+                        borderRadius: BorderRadius.circular(30)),
+                    // color: Colors.amber,
+                    height: 50,
+                    width: MediaQuery.of(context).size.width,
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/images/icon.png'),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 7),
+                            child: Text(
+                              'Continue with google',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 16,
+                    child: Text(
+                      'Not a member ? ',
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                  Container(
+                    height: 16,
+                    child: Text(
+                      'sign up',
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 20, 20, 20),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
